@@ -3,7 +3,7 @@ name: Flake8 Code Quality Check
 on:
   pull_request:
     branches:
-      - main  # Runs only when a PR is made to the main branch
+      - main
 
 jobs:
   lint:
