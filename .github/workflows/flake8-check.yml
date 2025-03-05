@@ -1,0 +1,32 @@
+name: Flake8 Code Quality Check
+
+on:
+  pull_request:
+    branches:
+      - dev  # Runs only when a PR is made to the dev branch
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"
+
+      - name: Install Dependencies
+        run: |
+          pip install flake8
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Flake8
+        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Fail PR if Lint Errors Exist
+        run: |
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=79 --statistics
+          if [ $? -ne 0 ]; then exit 1; fi
