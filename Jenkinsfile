@@ -8,15 +8,7 @@ pipeline {
     stages {
         stage('Checkout Repository') {
             steps {
-                checkout scmGit(
-                    branches: [[name: '*/main']],  
-                    extensions: [], 
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/AbdulRehman1780/CI-CD-Pipeline-for-ML-project.git'
-                        // Uncomment the next line if your repository requires authentication
-                        // ,credentialsId: 'github-credentials-id'
-                    ]]
-                )
+                git branch: 'main', url: 'https://github.com/AbdulRehman1780/CI-CD-Pipeline-for-ML-project.git'
             }
         }
 
@@ -50,8 +42,25 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
-                // Add deployment steps here
             }
+        }
+    }
+
+    post {
+        success {
+            emailext (
+                subject: "Jenkins Deployment Successful",
+                body: "The deployment of CI/CD Pipeline for ML Project was successful!\n\nJenkins Job URL: ${env.BUILD_URL}",
+                to: "i211780@nu.edu.pk"
+            )
+        }
+
+        failure {
+            emailext (
+                subject: "Jenkins Deployment Failed",
+                body: "The deployment failed. Please check Jenkins logs.\n\nJenkins Job URL: ${env.BUILD_URL}",
+                to: "i211780@nu.edu.pk"
+            )
         }
     }
 }
