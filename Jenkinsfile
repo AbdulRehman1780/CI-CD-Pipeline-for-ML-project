@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', credentialsId: 'github-credentials', url: 'https://AbdulRehman1780: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@github.com/AbdulRehman1780/CI-CD-Pipeline-for-ML-project.git'
+                git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/AbdulRehman1780/CI-CD-Pipeline-for-ML-project.git'
             }
         }
 
