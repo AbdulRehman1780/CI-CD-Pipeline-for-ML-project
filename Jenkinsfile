@@ -6,9 +6,17 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/AbdulRehman1780/CI-CD-Pipeline-for-ML-project.git'
+                checkout scmGit(
+                    branches: [[name: '*/main']],  
+                    extensions: [], 
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/AbdulRehman1780/CI-CD-Pipeline-for-ML-project.git'
+                        // Uncomment the next line if your repository requires authentication
+                        // ,credentialsId: 'github-credentials-id'
+                    ]]
+                )
             }
         }
 
